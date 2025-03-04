@@ -4,6 +4,9 @@
 
 CraftGPT - это мощный плагин для Minecraft, который интегрирует возможности искусственного интеллекта в ваш Spigot/Bukkit сервер, позволяя игрокам взаимодействовать с ИИ прямо в игре.
 
+![CraftGPT](.github/images/help-ru.png)
+![CraftGPT](.github/images/prompt-ru.png)
+
 ## Возможности
 
 -   Интеграция ИИ в Minecraft

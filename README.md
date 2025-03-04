@@ -4,6 +4,9 @@
 
 CraftGPT is a powerful Minecraft plugin that integrates AI capabilities into your Spigot/Bukkit server, allowing players to interact with AI directly within the game.
 
+![CraftGPT](.github/images/help-en.png)
+![CraftGPT](.github/images/prompt-en.png)
+
 ## Features
 
 -   AI integration within Minecraft
