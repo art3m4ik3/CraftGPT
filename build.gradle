@@ -1,9 +1,10 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 group = 'ru.art3m4ik3'
-version = '1.0-SNAPSHOT'
+version = '1.0.0'
 
 repositories {
     mavenCentral()
@@ -18,10 +19,19 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
+
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
+    implementation 'com.squareup.okio:okio:3.5.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.10'
+
+    implementation 'org.json:json:20231013'
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+    implementation 'org.yaml:snakeyaml:2.0'
 }
 
-def targetJavaVersion = 21
+def targetJavaVersion = 8
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion
@@ -33,7 +43,6 @@ java {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
         options.release.set(targetJavaVersion)
     }
@@ -45,5 +54,21 @@ processResources {
     filteringCharset 'UTF-8'
     filesMatching('plugin.yml') {
         expand props
+    }
+}
+
+shadowJar {
+    archiveClassifier.set('')
+    minimize()
+
+    relocate 'okhttp3', 'ru.art3m4ik3.craftGPT.lib.okhttp3'
+    relocate 'okio', 'ru.art3m4ik3.craftGPT.lib.okio'
+    relocate 'kotlin', 'ru.art3m4ik3.craftGPT.lib.kotlin'
+    relocate 'org.json', 'ru.art3m4ik3.craftGPT.lib.json'
+    relocate 'com.google.gson', 'ru.art3m4ik3.craftGPT.lib.gson'
+    relocate 'org.yaml', 'ru.art3m4ik3.craftGPT.lib.yaml'
+
+    dependencies {
+        exclude(dependency('org.spigotmc:spigot-api:.*'))
     }
 }

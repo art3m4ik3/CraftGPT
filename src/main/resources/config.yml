@@ -1,0 +1,104 @@
+ai:
+    # Системный промпт, определяющий поведение ИИ
+    system_prompt: "Вы - полезный помощник по Майнкрафту. Вы предоставляете краткую и точную информацию о механике Майнкрафта, предметах, блоках и общие советы по игровому процессу."
+
+    # API ключ для внешних сервисов (если требуется)
+    # Требуется при использовании OpenAI-совместимых endpoints (не нужен для text.ll-u.pro)
+    api_key: ""
+
+    # URL пользовательского сервера
+    # Если установлено "https://text.ll-u.pro/" - использует пользовательский формат (корректно работает с английским языком)
+    # Если установлен любой другой URL - использует OpenAI-совместимый формат, endpoint сразу указывать на /v1/chat/completions либо любой другой
+    custom_server_url: "https://text.ll-u.pro/"
+
+    # Модель для использования (только для OpenAI-совместимых endpoints)
+    # Примеры: gpt-3.5-turbo, gpt-4 и т.д.
+    model: "gpt-3.5-turbo"
+
+    # Настройки ответов
+    max_tokens: 2048
+    temperature: 0.7
+
+    language:
+        # Язык по умолчанию для промптов и сообщений
+        default: "ru"
+        # Доступные языки (первый используется как запасной, если нужный перевод отсутствует)
+        available: ["ru", "en"]
+        # Переводы сообщений
+        messages:
+            errors:
+                no_permission:
+                    ru: "&cУ вас нет прав для использования этой команды."
+                    en: "&cYou don't have permission to use this command."
+                invalid_info_type:
+                    ru: "&cНеверный тип информации. Доступные типы: block, item, mob, enchant"
+                    en: "&cInvalid info type. Available types: block, item, mob, enchant"
+            usage:
+                prompt:
+                    ru: "&cИспользование: /craftgpt prompt <сообщение> [язык]"
+                    en: "&cUsage: /craftgpt prompt <message> [lang]"
+                info:
+                    ru: "&cИспользование: /craftgpt info <тип> <значение> [язык]"
+                    en: "&cUsage: /craftgpt info <type> <value> [lang]"
+            help:
+                header:
+                    ru: "&a=== CraftGPT Помощь ==="
+                    en: "&a=== CraftGPT Help ==="
+                prompt:
+                    ru: "&f/craftgpt <вопрос> [язык] &7- Задать вопрос"
+                    en: "&f/craftgpt <prompt> [lang] &7- Ask a question"
+                help:
+                    ru: "&f/craftgpt help &7- Показать это сообщение"
+                    en: "&f/craftgpt help &7- Show this help message"
+                prompt_cmd:
+                    ru: "&f/craftgpt prompt <вопрос> [язык] &7- Задать конкретный вопрос"
+                    en: "&f/craftgpt prompt <prompt> [lang] &7- Ask a specific question"
+                info:
+                    ru: "&f/craftgpt info <тип> <значение> [язык] &7- Получить информацию"
+                    en: "&f/craftgpt info <type> <value> [lang] &7- Get predefined info"
+                admin_header:
+                    ru: "&a=== Команды администратора ==="
+                    en: "&a=== Admin Commands ==="
+                reload:
+                    ru: "&f/craftgpt reload &7- Перезагрузить плагин"
+                    en: "&f/craftgpt reload &7- Reload the plugin"
+                version:
+                    ru: "&f/craftgpt version &7- Показать версию плагина"
+                    en: "&f/craftgpt version &7- Show plugin version"
+            general:
+                plugin_reloaded:
+                    ru: "&aПлагин успешно перезагружен!"
+                    en: "&aPlugin reloaded successfully!"
+                version:
+                    ru: "&aВерсия CraftGPT: {version}"
+                    en: "&aCraftGPT version: {version}"
+                response:
+                    ru: "&aОтвет:"
+                    en: "&aResponse:"
+            prompts:
+                thinking:
+                    ru: "Думаю..."
+                    en: "Thinking..."
+                info:
+                    block:
+                        ru: "Предоставь информацию о блоке в Minecraft: {value}"
+                        en: "Provide information about the Minecraft block: {value}"
+                    item:
+                        ru: "Предоставь информацию о предмете в Minecraft: {value}"
+                        en: "Provide information about the Minecraft item: {value}"
+                    mob:
+                        ru: "Предоставь информацию о мобе в Minecraft: {value}"
+                        en: "Provide information about the Minecraft mob: {value}"
+                    enchant:
+                        ru: "Предоставь информацию о зачаровании в Minecraft: {value}"
+                        en: "Provide information about the Minecraft enchantment: {value}"
+
+# Режим отладки
+debug: false
+
+# Форматирование сообщений
+messages:
+    prefix: "&8[&aCraftGPT&8]&r "
+    error: "&c{message}"
+    thinking: "&7{thinking_message}"
+    response_header: "&a{message}"

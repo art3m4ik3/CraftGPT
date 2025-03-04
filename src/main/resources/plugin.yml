@@ -1,7 +1,31 @@
 name: CraftGPT
-version: '1.0-SNAPSHOT'
+version: "${version}"
 main: ru.art3m4ik3.craftGPT.CraftGPT
-api-version: '1.21'
-authors: [ art3m4ik3 ]
-description: Minecraft GPT Plugin
+api-version: "1.13"
+authors: [art3m4ik3]
+description: Advanced Minecraft ChatGPT Plugin
 website: https://ll-u.ru/
+softdepend: []
+
+commands:
+    craftgpt:
+        description: Main command for CraftGPT plugin
+        aliases: [cg, gpt]
+        usage: /craftgpt <prompt|help|info|reload|version>
+
+permissions:
+    minegpt.command.help:
+        description: Allows player to use help command
+        default: true
+    minegpt.command.info:
+        description: Allows player to use info command
+        default: true
+    minegpt.command.prompt:
+        description: Allows player to use prompt command
+        default: true
+    minegpt.command.admin.help:
+        description: Allows player to use admin help command
+        default: op
+    minegpt.command.admin.reload:
+        description: Allows player to reload the plugin
+        default: op
