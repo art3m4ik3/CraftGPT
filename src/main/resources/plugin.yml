@@ -1,0 +1,7 @@
+name: CraftGPT
+version: '1.0-SNAPSHOT'
+main: ru.art3m4ik3.craftGPT.CraftGPT
+api-version: '1.21'
+authors: [ art3m4ik3 ]
+description: Minecraft GPT Plugin
+website: https://ll-u.ru/
