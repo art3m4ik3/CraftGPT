@@ -28,7 +28,7 @@ public class Configuration {
     }
 
     public String getCustomServerUrl() {
-        return config.getString("ai.custom_server_url", "https://text.ll-u.pro/");
+        return config.getString("ai.custom_server_url", "https://text.ai.ll-u.ru/");
     }
 
     public int getMaxTokens() {
