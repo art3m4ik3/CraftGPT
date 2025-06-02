@@ -14,7 +14,7 @@ public class CustomServerAIService implements AIService {
     private OkHttpClient client;
     private final Configuration config;
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private static final String CUSTOM_SERVER_URL = "https://text.ll-u.pro/";
+    private static final String CUSTOM_SERVER_URL = "https://text.ai.ll-u.ru/";
     private volatile boolean isShutdown = false;
 
     public CustomServerAIService(Configuration config) {
