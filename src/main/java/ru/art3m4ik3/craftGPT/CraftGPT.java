@@ -5,18 +5,33 @@ import ru.art3m4ik3.craftGPT.ai.AIService;
 import ru.art3m4ik3.craftGPT.ai.CustomServerAIService;
 import ru.art3m4ik3.craftGPT.commands.CraftGPTCommand;
 import ru.art3m4ik3.craftGPT.config.Configuration;
+import ru.art3m4ik3.craftGPT.listeners.ChatModeListener;
+import ru.art3m4ik3.craftGPT.managers.ConversationManager;
+import ru.art3m4ik3.craftGPT.managers.CooldownManager;
+import ru.art3m4ik3.craftGPT.managers.UsageTracker;
 
 public final class CraftGPT extends JavaPlugin {
     private Configuration configuration;
     private AIService aiService;
+    private ConversationManager conversationManager;
+    private CooldownManager cooldownManager;
+    private UsageTracker usageTracker;
+    private ChatModeListener chatModeListener;
+    private CraftGPTCommand craftGPTCommand;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         configuration = new Configuration(this);
-        aiService = new CustomServerAIService(configuration);
+        initManagers();
 
-        getCommand("craftgpt").setExecutor(new CraftGPTCommand(this, aiService));
+        aiService = new CustomServerAIService(configuration);
+        craftGPTCommand = new CraftGPTCommand(this, aiService, conversationManager, cooldownManager, usageTracker);
+
+        getCommand("craftgpt").setExecutor(craftGPTCommand);
+
+        chatModeListener = new ChatModeListener(this, craftGPTCommand);
+        getServer().getPluginManager().registerEvents(chatModeListener, this);
 
         getLogger().info("CraftGPT has been enabled!");
     }
@@ -29,9 +44,21 @@ public final class CraftGPT extends JavaPlugin {
         getLogger().info("CraftGPT has been disabled!");
     }
 
+    private void initManagers() {
+        int cooldown = configuration.isCooldownEnabled() ? configuration.getCooldownSeconds() : 0;
+        cooldownManager = new CooldownManager(cooldown);
+
+        int maxHistory = configuration.getMaxConversationHistory();
+        conversationManager = new ConversationManager(maxHistory);
+
+        int maxRequests = configuration.getMaxRequestsPerSession();
+        usageTracker = new UsageTracker(maxRequests);
+    }
+
     public void reloadPlugin() {
         reloadConfig();
         configuration.loadConfig();
+        initManagers();
 
         if (aiService != null) {
             if (aiService instanceof CustomServerAIService) {
@@ -43,9 +70,20 @@ public final class CraftGPT extends JavaPlugin {
         } else {
             aiService = new CustomServerAIService(configuration);
         }
+
+        craftGPTCommand = new CraftGPTCommand(this, aiService, conversationManager, cooldownManager, usageTracker);
+        getCommand("craftgpt").setExecutor(craftGPTCommand);
+
+        if (chatModeListener != null) {
+            chatModeListener.updateCommand(craftGPTCommand);
+        }
     }
 
     public Configuration getConfiguration() {
         return configuration;
+    }
+
+    public ChatModeListener getChatModeListener() {
+        return chatModeListener;
     }
 }

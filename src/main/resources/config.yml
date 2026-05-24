@@ -33,6 +33,21 @@ ai:
                 invalid_info_type:
                     ru: "&cНеверный тип информации. Доступные типы: block, item, mob, enchant"
                     en: "&cInvalid info type. Available types: block, item, mob, enchant"
+                cooldown:
+                    ru: "&cПодождите ещё {0} сек. перед следующим запросом."
+                    en: "&cPlease wait {0}s before sending another request."
+                usage_limit:
+                    ru: "&cВы достигли лимита запросов ({0}) за сессию."
+                    en: "&cYou have reached the request limit ({0}) for this session."
+                player_only:
+                    ru: "&cЭта команда доступна только игрокам."
+                    en: "&cThis command can only be used by players."
+                chat_mode_disabled:
+                    ru: "&cРежим чата отключён администратором."
+                    en: "&cChat mode is disabled by the administrator."
+                player_not_found:
+                    ru: "&cИгрок {0} не найден."
+                    en: "&cPlayer {0} not found."
             usage:
                 prompt:
                     ru: "&cИспользование: /craftgpt prompt <сообщение> [язык]"
@@ -56,6 +71,15 @@ ai:
                 info:
                     ru: "&f/craftgpt info <тип> <значение> [язык] &7- Получить информацию"
                     en: "&f/craftgpt info <type> <value> [lang] &7- Get predefined info"
+                chat:
+                    ru: "&f/craftgpt chat &7- Включить/выключить режим чата с ИИ"
+                    en: "&f/craftgpt chat &7- Toggle AI chat mode"
+                clear:
+                    ru: "&f/craftgpt clear &7- Сбросить историю разговора"
+                    en: "&f/craftgpt clear &7- Clear conversation history"
+                history:
+                    ru: "&f/craftgpt history &7- Показать статистику вашего разговора"
+                    en: "&f/craftgpt history &7- Show your conversation stats"
                 admin_header:
                     ru: "&a=== Команды администратора ==="
                     en: "&a=== Admin Commands ==="
@@ -65,6 +89,9 @@ ai:
                 version:
                     ru: "&f/craftgpt version &7- Показать версию плагина"
                     en: "&f/craftgpt version &7- Show plugin version"
+                stats:
+                    ru: "&f/craftgpt stats <игрок> &7- Статистика использования игрока"
+                    en: "&f/craftgpt stats <player> &7- Show player usage stats"
             general:
                 plugin_reloaded:
                     ru: "&aПлагин успешно перезагружен!"
@@ -75,6 +102,21 @@ ai:
                 response:
                     ru: "&aОтвет:"
                     en: "&aResponse:"
+                history_cleared:
+                    ru: "&aИстория разговора очищена."
+                    en: "&aConversation history cleared."
+                history_info:
+                    ru: "&aИстория: &f{0} &aсообщений. Запросов за сессию: &f{1}&a."
+                    en: "&aHistory: &f{0} &amessages. Session requests: &f{1}&a."
+                chat_mode_on:
+                    ru: "&aРежим чата с ИИ &2включён&a. Пишите в чат — ИИ ответит. &7(/craftgpt chat — выключить)"
+                    en: "&aAI chat mode &2enabled&a. Type in chat to talk to AI. &7(/craftgpt chat to disable)"
+                chat_mode_off:
+                    ru: "&aРежим чата с ИИ &cвыключен&a."
+                    en: "&aAI chat mode &cdisabled&a."
+                stats:
+                    ru: "&aСтатистика &f{0}&a: запросов &f{1}&a, сообщений в истории &f{2}&a."
+                    en: "&aStats for &f{0}&a: requests &f{1}&a, history messages &f{2}&a."
             prompts:
                 thinking:
                     ru: "Думаю..."
@@ -92,6 +134,30 @@ ai:
                     enchant:
                         ru: "Предоставь информацию о зачаровании в Minecraft: {value}"
                         en: "Provide information about the Minecraft enchantment: {value}"
+
+# Новые функции
+features:
+    # Кулдаун между запросами (антиспам)
+    cooldown:
+        enabled: true
+        seconds: 5
+
+    # Память разговора (контекст предыдущих сообщений)
+    conversation:
+        enabled: true
+        max_history: 10  # Количество пар вопрос/ответ в памяти
+
+    # Авто-инъекция контекста игрока (биом, здоровье, позиция и т.д.)
+    context:
+        enabled: true
+
+    # Режим чата с ИИ (/craftgpt chat)
+    chat_mode:
+        enabled: true
+
+    # Ограничение запросов за сессию (0 = без ограничений)
+    usage:
+        max_requests_per_session: 0
 
 # Режим отладки
 debug: false
