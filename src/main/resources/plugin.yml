@@ -11,7 +11,7 @@ commands:
     craftgpt:
         description: Main command for CraftGPT plugin
         aliases: [cg, gpt]
-        usage: /craftgpt <prompt|help|info|reload|version>
+        usage: /craftgpt <prompt|help|info|chat|clear|history|reload|version|stats>
 
 permissions:
     minegpt.command.help:

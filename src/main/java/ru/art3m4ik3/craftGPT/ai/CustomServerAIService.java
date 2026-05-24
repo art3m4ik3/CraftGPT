@@ -7,6 +7,8 @@ import org.json.JSONObject;
 import ru.art3m4ik3.craftGPT.config.Configuration;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -42,7 +44,7 @@ public class CustomServerAIService implements AIService {
     }
 
     @Override
-    public CompletableFuture<String> generateResponse(String prompt) {
+    public CompletableFuture<String> generateResponse(String prompt, List<JSONObject> history) {
         CompletableFuture<String> future = new CompletableFuture<>();
 
         if (isShutdown) {
@@ -53,7 +55,9 @@ public class CustomServerAIService implements AIService {
         String serverUrl = config.getCustomServerUrl();
         boolean isCustomServer = CUSTOM_SERVER_URL.equals(serverUrl);
 
-        JSONObject requestBody = isCustomServer ? createCustomServerRequest(prompt) : createOpenAIRequest(prompt);
+        JSONObject requestBody = isCustomServer
+                ? createCustomServerRequest(prompt, history)
+                : createOpenAIRequest(prompt, history);
 
         if (config.isDebugMode()) {
             System.out.println("Request URL: " + serverUrl);
@@ -127,32 +131,30 @@ public class CustomServerAIService implements AIService {
         return future;
     }
 
-    private JSONObject createCustomServerRequest(String prompt) {
-        JSONObject json = new JSONObject();
+    private JSONArray buildMessages(String prompt, List<JSONObject> history) {
         JSONArray messages = new JSONArray();
         messages.put(new JSONObject()
                 .put("role", "system")
                 .put("content", config.getSystemPrompt()));
+        for (JSONObject msg : history) {
+            messages.put(msg);
+        }
         messages.put(new JSONObject()
                 .put("role", "user")
                 .put("content", prompt));
-        json.put("messages", messages);
+        return messages;
+    }
+
+    private JSONObject createCustomServerRequest(String prompt, List<JSONObject> history) {
+        JSONObject json = new JSONObject();
+        json.put("messages", buildMessages(prompt, history));
         return json;
     }
 
-    private JSONObject createOpenAIRequest(String prompt) {
+    private JSONObject createOpenAIRequest(String prompt, List<JSONObject> history) {
         JSONObject json = new JSONObject();
         json.put("model", config.getAiModel());
-
-        JSONArray messages = new JSONArray();
-        messages.put(new JSONObject()
-                .put("role", "system")
-                .put("content", config.getSystemPrompt()));
-        messages.put(new JSONObject()
-                .put("role", "user")
-                .put("content", prompt));
-
-        json.put("messages", messages);
+        json.put("messages", buildMessages(prompt, history));
         json.put("temperature", config.getTemperature());
         json.put("max_tokens", config.getMaxTokens());
         return json;

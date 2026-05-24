@@ -43,6 +43,38 @@ public class Configuration {
         return config.getString("ai.language.default", "ru");
     }
 
+    // --- New feature settings ---
+
+    public boolean isCooldownEnabled() {
+        return config.getBoolean("features.cooldown.enabled", true);
+    }
+
+    public int getCooldownSeconds() {
+        return config.getInt("features.cooldown.seconds", 5);
+    }
+
+    public boolean isConversationEnabled() {
+        return config.getBoolean("features.conversation.enabled", true);
+    }
+
+    public int getMaxConversationHistory() {
+        return config.getInt("features.conversation.max_history", 10);
+    }
+
+    public boolean isContextInjectionEnabled() {
+        return config.getBoolean("features.context.enabled", true);
+    }
+
+    public boolean isChatModeEnabled() {
+        return config.getBoolean("features.chat_mode.enabled", true);
+    }
+
+    public int getMaxRequestsPerSession() {
+        return config.getInt("features.usage.max_requests_per_session", 0);
+    }
+
+    // --- End new feature settings ---
+
     public String getMessage(String path, String lang, Object... args) {
         String message = config.getString("ai.language.messages." + path + "." + lang,
                 config.getString("ai.language.messages." + path + "." + getDefaultLanguage(),
